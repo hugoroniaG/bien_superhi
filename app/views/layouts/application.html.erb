@@ -12,20 +12,25 @@
 
   <body>
     <header>
+      <nav>
       <h1>
         <%= link_to root_path do %>
           <%= image_tag 'bien-logo.svg' %>
         <% end %>
       </h1>
-      
-      <h2>The best restaurant reviews in the world</h2>
+      </nav>
       <nav>
         <%= link_to "Add a review", new_review_path %>
       </nav>
     </header>
     
+    <main>
     <%= yield %>
+    </main>
     
-    <footer>Copyright 2022 Bien Reviews</footer>
+    <footer>
+      Copyright 2022 Bien Reviews
+    </footer>
+    
   </body>
 </html>
