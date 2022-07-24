@@ -1,5 +1,8 @@
 class ReviewsController < ApplicationController
 	
+	# check if logged in
+	before_action :check_login, except: [:index, :show]
+	
 	def index 
 		# this is our list page for reviews	
 		@price = params[:price]
@@ -18,7 +21,7 @@ class ReviewsController < ApplicationController
 		if @cuisine.present?
 			@reviews = @reviews.where(cuisine: @cuisine)
 		end
-		# search near thel location
+		# search near the location
 		if @location.present?
 			@reviews = @reviews.near(@location)
 		end
@@ -34,10 +37,14 @@ class ReviewsController < ApplicationController
 		# take info from the form and add it to the model
 		@review = Review.new(form_params)
 		
+		# and then associate it with a user
+		@review.user = @current_user
+		
 		# we want to check if the model can be saved
 		# if it is, we go to the home page again
 		# if it isn't, show the new form
 		if @review.save
+			flash[:success] = "Your reviews was posted!"
 			redirect_to root_path
 		else
 			# show the view for new.html.erb
@@ -58,7 +65,9 @@ class ReviewsController < ApplicationController
 		# find the individual review
 		@review = Review.find(params[:id])
 		# destroy
-		@review.destroy
+		if @review.user === @current_user
+			@review.destroy
+		end
 		# redirect to homepage
 		redirect_to root_path
 		
@@ -68,19 +77,28 @@ class ReviewsController < ApplicationController
 		# find individual review to edit
 		@review = Review.find(params[:id])
 		
+		if @review.user != @current_user
+			redirect_to root_path
+		end
+		
 		
 	end
 	
 	def update
 		# find the individual review
 		@review = Review.find(params[:id])
-		# update with the new info from the form
-		if @review.update(form_params)
-		# redirect somewhere new
-			redirect_to review_path(@review)
+		if @review.user != @current_user
+			redirect_to root_path
 		else
-			render "edit", status: :unprocessable_entity
-		end
+			if @review.update(form_params)
+			# redirect somewhere new
+				redirect_to review_path(@review)
+			else
+				render "edit", status: :unprocessable_entity
+			end
+		end	
+		# update with the new info from the form
+		
 	end
 	
 	def form_params
