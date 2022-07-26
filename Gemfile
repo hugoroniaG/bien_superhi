@@ -53,6 +53,20 @@ gem "active_link_to"
 
 gem "profanity_filter"
 
+# lets add uploading file
+gem 'carrierwave', '~> 2.0'
+gem "mini_magick"
+
+# AWS
+gem "fog-aws"
+
+# add admin panel
+gem 'activeadmin'
+gem 'devise'
+gem 'cancancan'
+gem 'draper'
+gem 'pundit'
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 

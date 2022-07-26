@@ -48,7 +48,7 @@ class ReviewsController < ApplicationController
 			redirect_to root_path
 		else
 			# show the view for new.html.erb
-			render "new", status: :unprocessable_entity
+			render "new"
 		end
 		
 		
@@ -79,9 +79,9 @@ class ReviewsController < ApplicationController
 		
 		if @review.user != @current_user
 			redirect_to root_path
+		elsif @review.created_at < 1.hour.ago
+			redirect_to review_path(@review)
 		end
-		
-		
 	end
 	
 	def update
@@ -102,7 +102,7 @@ class ReviewsController < ApplicationController
 	end
 	
 	def form_params
-		params.require(:review).permit(:title, :restaurant, :body, :score, :ambiance, :cuisine, :price, :address)
+		params.require(:review).permit(:title, :restaurant, :body, :score, :ambiance, :cuisine, :price, :address, :photo)
 	end
 	
 		

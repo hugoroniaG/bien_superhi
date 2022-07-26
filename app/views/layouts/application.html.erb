@@ -24,6 +24,11 @@
           
           <%= @current_user.username %>
           
+          <% if @current_user.is_admin? %>
+            <%= link_to "Admin", admin_root_path %>
+          <% end %>
+          
+          
           <%= link_to "Add a review", new_review_path %>
           
           <%= link_to "Log out", session_path, data: { turbo_method: "delete", turbo_confirm: "Are you sure?" }%>
@@ -41,7 +46,7 @@
     </main>
     
     <footer>
-      Copyright 2022 Bien Reviews
+      Copyright 2022 Bien Reviews - <%= link_to "About", about_path %> -<%= link_to "Terms", terms_path %>
     </footer>
     
   </body>

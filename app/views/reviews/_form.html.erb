@@ -1,7 +1,8 @@
-<%= simple_form_for @review do |f| %>
+<%= simple_form_for @review, data: { turbo: false } do |f| %>
 	<%= f.input :title %>
 	<%= f.input :restaurant %>
 	<%= f.input :address %>
+	<%= f.input :photo %>
 	<%= f.input :body %>
 	<%= f.input :cuisine %>
 	<%= f.input :price %>
