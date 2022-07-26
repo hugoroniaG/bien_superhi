@@ -1,4 +1,6 @@
-<%= image_tag @content.image %>
+<% if @content.image.url.present? %>
+  <%= image_tag @content.image.url %>
+<% end %>
 
 <h1><%= @content.title %></h1>
 
